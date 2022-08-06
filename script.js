@@ -34,10 +34,29 @@ str.length - и получить её длину)
 "Вы киноман". А если не подошло ни к одному варианту - "Произошла ошибка"
 4) Потренироваться и переписать цикл еще двумя способами*/
 
+///////////////////////////////////////////////////////////////////
+
+/* Задание на урок:
+1) Первую часть задания повторить по уроку
+2) Создать функцию showMyDB, которая будет проверять свойство privat. Если стоит в позиции
+false - выводит в консоль главный объект программы
+3) Создать функцию writeYourGenres в которой пользователь будет 3 раза отвечать на вопрос 
+"Ваш любимый жанр под номером ${номер по порядку}". Каждый ответ записывается в массив данных
+genres
+P.S. Функции вызывать не обязательно */
+
 "use strict";
 
-const numberOfFilms = prompt("Сколько фильмов вы уже посмотрели?", "");
-alert("Последовательно заполните данные о ДВУХ фильмах");
+let numberOfFilms;
+
+function start() {
+  numberOfFilms = +prompt("Сколько фильмов вы уже посмотрели?", "");
+
+  while (numberOfFilms == "" || numberOfFilms == null || isNaN(numberOfFilms)) {
+    numberOfFilms = +prompt("Сколько фильмов вы уже посмотрели?", "");
+  }
+}
+start();
 
 const personalMovieDB = {
   count: numberOfFilms,
@@ -47,26 +66,51 @@ const personalMovieDB = {
   privat: false,
 };
 
-for (let i = 0; i < 2; i++) {
-  const a = prompt("Один из последних просмотренных фильмов?", ""),
-    b = +prompt("На сколько оцените его", "");
+function rememberMyFilms() {
+  for (let i = 0; i < 2; i++) {
+    const a = prompt("Один из последних просмотренных фильмов?", ""),
+      b = +prompt("На сколько оцените его", "");
 
-  if (a != "" && b != "" && a != null && b != null && a.length < 50) {
-    personalMovieDB.movies[a] = b;
-    alert("Cпасибо");
-  } else {
-    i--;
-    alert("Данные не заполнены или заполнены не корректно, повторите попытку.");
+    if (a != "" && b != "" && a != null && b != null && a.length < 50) {
+      personalMovieDB.movies[a] = b;
+      alert("Cпасибо");
+    } else {
+      i--;
+      alert(
+        "Данные не заполнены или заполнены не корректно, повторите попытку."
+      );
+    }
   }
 }
 
-if (personalMovieDB.count < 10) {
-  alert("Просмотрено довольно мало фильмов");
-} else if (personalMovieDB.count <= 10 && personalMovieDB.count > 30) {
-  alert("Вы классический зритель");
-} else if (personalMovieDB.count >= 30) {
-  alert("Вы киноман");
-} else {
-  alert("Произошла ошибка");
+// rememberMyFilms();
+
+function detectPersonalLevel() {
+  if (personalMovieDB.count < 10) {
+    alert("Просмотрено довольно мало фильмов");
+  } else if (personalMovieDB.count >= 10 && personalMovieDB.count < 30) {
+    alert("Вы классический зритель");
+  } else if (personalMovieDB.count >= 30) {
+    alert("Вы киноман");
+  } else {
+    alert("Произошла ошибка");
+  }
 }
-console.log(personalMovieDB);
+
+detectPersonalLevel();
+
+function showMyDB(hidden) {
+  if (!hidden) {
+    console.log(personalMovieDB);
+  }
+}
+
+showMyDB(personalMovieDB.privat);
+
+function writeYourGenres() {
+  for (let i = 1; i <= 3; i++) {
+    personalMovieDB.genres[i - 1] = prompt(`Ваш любимый жанр под номером ${i}`);
+  }
+}
+
+writeYourGenres();
